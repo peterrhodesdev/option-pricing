@@ -1,4 +1,4 @@
-import { standardNormalCdf } from "../src/MathUtils";
+import { standardNormalCdf } from "../../src/utils/MathUtils";
 
 describe("Standard normal CDF", () => {
   // https://en.wikipedia.org/wiki/Standard_normal_table#Cumulative_from_minus_infinity_to_Z

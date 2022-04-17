@@ -1,4 +1,5 @@
-import { price } from "./AnalyticalSolution";
+import { price } from "./pricing-models/AnalyticalSolution";
+import { isNumberGreaterThanZero } from "./utils/ValidationUtils";
 
 class Option {
   #style;
@@ -71,7 +72,7 @@ class Option {
   }
 
   static #checkIsNumberGreaterThanZero(value, argumentName) {
-    if (!Number.isFinite(value) || value <= 0) {
+    if (!isNumberGreaterThanZero(value)) {
       throw new Error(
         `Invalid ${argumentName} (${value}), must be a number greater than zero.`
       );

@@ -1,4 +1,4 @@
-import { standardNormalCdf } from "./MathUtils";
+import { standardNormalCdf } from "../utils/MathUtils";
 
 /**
  * Vanilla European option.
