@@ -1,13 +1,20 @@
-import { price } from './AnalyticalSolution';
+import { price } from "./AnalyticalSolution";
 
-export default class Option {
+class Option {
   #style;
+
   #type;
+
   #initialSpotPrice;
+
   #strikePrice;
+
   #timeToMaturity;
+
   #volatility;
+
   #riskFreeRate;
+
   #dividendYield;
 
   constructor(
@@ -24,13 +31,16 @@ export default class Option {
     this.#style = style;
     Option.#checkType(type);
     this.#type = type;
-    Option.#checkIsNumberGreaterThanZero(initialSpotPrice, 'initial spot price');
+    Option.#checkIsNumberGreaterThanZero(
+      initialSpotPrice,
+      "initial spot price"
+    );
     this.#initialSpotPrice = initialSpotPrice;
-    Option.#checkIsNumberGreaterThanZero(strikePrice, 'strike price');
+    Option.#checkIsNumberGreaterThanZero(strikePrice, "strike price");
     this.#strikePrice = strikePrice;
-    Option.#checkIsNumberGreaterThanZero(timeToMaturity, 'time to maturity');
+    Option.#checkIsNumberGreaterThanZero(timeToMaturity, "time to maturity");
     this.#timeToMaturity = timeToMaturity;
-    Option.#checkIsNumberGreaterThanZero(volatility, 'volatility');
+    Option.#checkIsNumberGreaterThanZero(volatility, "volatility");
     this.#volatility = volatility;
     this.#riskFreeRate = Number.isFinite(riskFreeRate) ? riskFreeRate : 0;
     this.#dividendYield = Number.isFinite(dividendYield) ? dividendYield : 0;
@@ -45,14 +55,16 @@ export default class Option {
   // Checkers
 
   static #checkStyle(style) {
-    const validStyles = [ 'american', 'european' ];
+    const validStyles = ["american", "european"];
     if (!validStyles.includes(style)) {
-      throw new Error(`Invalid style (${style}), must be one of: ${validStyles}.`);
+      throw new Error(
+        `Invalid style (${style}), must be one of: ${validStyles}.`
+      );
     }
   }
 
   static #checkType(type) {
-    const validTypes = [ 'call', 'put' ];
+    const validTypes = ["call", "put"];
     if (!validTypes.includes(type)) {
       throw new Error(`Invalid type (${type}), must be one of: ${validTypes}.`);
     }
@@ -60,15 +72,25 @@ export default class Option {
 
   static #checkIsNumberGreaterThanZero(value, argumentName) {
     if (!Number.isFinite(value) || value <= 0) {
-      throw new Error(`Invalid ${argumentName} (${initialSpotPrice}), must be a number greater than zero.`);
+      throw new Error(
+        `Invalid ${argumentName} (${value}), must be a number greater than zero.`
+      );
     }
   }
 
-  // Setters
+  // Getters and setters
+
+  get style() {
+    return this.#style;
+  }
 
   set style(newStyle) {
     Option.#checkStyle(newStyle);
     this.#style = newStyle;
+  }
+
+  get type() {
+    return this.#type;
   }
 
   set type(newType) {
@@ -76,9 +98,17 @@ export default class Option {
     this.#type = newType;
   }
 
+  get initialSpotPrice() {
+    return this.#initialSpotPrice;
+  }
+
   set initialSpotPrice(newInitialSpotPrice) {
     Option.#checkIsNumberGreaterThanZero(newInitialSpotPrice);
     this.#initialSpotPrice = newInitialSpotPrice;
+  }
+
+  get strikePrice() {
+    return this.#strikePrice;
   }
 
   set strikePrice(newStrikePrice) {
@@ -86,9 +116,17 @@ export default class Option {
     this.#strikePrice = newStrikePrice;
   }
 
+  get timeToMaturity() {
+    return this.#timeToMaturity;
+  }
+
   set timeToMaturity(newTimeToMaturity) {
     Option.#checkIsNumberGreaterThanZero(newTimeToMaturity);
     this.#timeToMaturity = newTimeToMaturity;
+  }
+
+  get volatility() {
+    return this.#volatility;
   }
 
   set volatility(newVolatility) {
@@ -96,45 +134,23 @@ export default class Option {
     this.#volatility = newVolatility;
   }
 
-  set riskFreeRate(newRiskFreeRate) {
-    this.#riskFreeRate = Number.isFinite(newRiskFreeRate) ? newRiskFreeRate : 0;
-  }
-
-  set dividendYield(newDividendYield) {
-    this.#dividendYield = Number.isFinite(newDividendYield) ? newDividendYield : 0;
-  }
-
-  // Getters
-
-  get style() {
-    return this.#style;
-  }
-
-  get type() {
-    return this.#type;
-  }
-
-  get initialSpotPrice() {
-    return this.#initialSpotPrice;
-  }
-
-  get strikePrice() {
-    return this.#strikePrice;
-  }
-
-  get timeToMaturity() {
-    return this.#timeToMaturity;
-  }
-
-  get volatility() {
-    return this.#volatility;
-  }
-
   get riskFreeRate() {
     return this.#riskFreeRate;
+  }
+
+  set riskFreeRate(newRiskFreeRate) {
+    this.#riskFreeRate = Number.isFinite(newRiskFreeRate) ? newRiskFreeRate : 0;
   }
 
   get dividendYield() {
     return this.#dividendYield;
   }
+
+  set dividendYield(newDividendYield) {
+    this.#dividendYield = Number.isFinite(newDividendYield)
+      ? newDividendYield
+      : 0;
+  }
 }
+
+export { Option };

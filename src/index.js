@@ -1,6 +1,3 @@
-const sum = (a, b) => {
-  console.log(`a: ${a}, b: ${b}`);
-  return a + b;
-};
+import { Option } from "./Option";
 
-export { sum };
+export { Option };
