@@ -1,5 +1,5 @@
-import { price } from "./pricing-models/AnalyticalSolution";
-import { isNumberGreaterThanZero } from "./utils/ValidationUtils";
+import { price } from "./pricing-models/AnalyticalSolution.js";
+import { isNumberGreaterThanZero } from "./utils/ValidationUtils.js";
 
 class Option {
   #style;

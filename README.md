@@ -66,7 +66,7 @@ S₀ = 52, K = 50, τ = 0.25, σ = 0.3, r = 0.12, q = 0
 const option = new Option("european", "call", 52, 50, 0.25, 0.3, 0.12, 0);
 const price = option.analyticalSolution();
 console.log(price);
-// 5.06...
+// 5.057...
 ```
 
 - American put option
@@ -93,12 +93,12 @@ parameters: timeSteps = 2
 
 ```js
 const option = new Option("american", "put", 1500, 1480, 1, 0.18, 0.04, 0.025);
-const price = coxRossRubinstein.price(
+const price = await coxRossRubinstein(
   option,
   2,      // Number of time steps in the tree.
 );
 console.log(price);
-// 78.41...
+// 78.413...
 ```
 
 ## References

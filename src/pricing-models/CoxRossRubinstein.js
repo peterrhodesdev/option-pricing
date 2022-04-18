@@ -1,4 +1,4 @@
-import { isNumberGreaterThanZero } from "../utils/ValidationUtils";
+import { isNumberGreaterThanZero } from "../utils/ValidationUtils.js";
 
 function determineModelParameters(option, timeSteps) {
   const deltat = option.timeToMaturity / timeSteps;

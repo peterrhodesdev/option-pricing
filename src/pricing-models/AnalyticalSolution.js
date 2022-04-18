@@ -1,4 +1,4 @@
-import { standardNormalCdf } from "../utils/MathUtils";
+import { standardNormalCdf } from "../utils/MathUtils.js";
 
 /**
  * Vanilla European option.
