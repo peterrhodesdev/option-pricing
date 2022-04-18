@@ -16,10 +16,12 @@
   "keywords": [
     "option",
     "pricing",
-    "black-scholes"
+    "black-scholes",
+    "cox-ross-rubinstein",
+    "binomial-tree"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Peter Rhodes",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/peterrhodesdev/option-pricing/issues"
   },

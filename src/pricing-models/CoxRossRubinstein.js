@@ -49,7 +49,7 @@ function calculateNodeOptionValue(option, timeSteps, nodes, i, j, deltat, p) {
     nodes[nodeIndex].spotPrice,
     i === timeSteps ? option.timeToMaturity : i * deltat
   );
-  
+
   return [nodeIndex, Math.max(currentValue, exerciseValue)];
 }
 
