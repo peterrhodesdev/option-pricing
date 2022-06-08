@@ -54,7 +54,7 @@ Then either call the `analyticalSolution` method on the `Option`, or pass the op
 
 ### Analytically priced options
 
-- European call option
+- European call/put options
 
 The value of a European option and it's greeks can be calculated analytically using the [Black-Scholes model](https://www.jstor.org/stable/1831029). This model was extended by [Merton](https://www.jstor.org/stable/3003143) to allow for the inclusion of a continuous dividend yield.
 
@@ -69,9 +69,24 @@ console.log(price);
 // 5.057...
 ```
 
+- American call option on a non-dividend paying stock
+
+> "Since it is never optimal to exercise early an American call option on a non-dividend-paying stock (see Section 11.5), equation (15.20) [the Black-Scholes-Merton pricing formula] is the value of an American call option on a non-dividend-paying stock." (Hull, 2014, p. 359)
+
+That is, the price of an American call option on a non-dividend paying stock is the same as the price of a European call option.
+
+```js
+const option = new Option("american", "call", 52, 50, 0.25, 0.3, 0.12, 0);
+const price = option.analyticalSolution();
+console.log(price);
+// 5.057...
+```
+
 - American put option
 
-No known analytical solution exists for American put options, so the result will be `undefined`.
+> "no exact analytic formula for the value of an American put option on a non-dividend-paying stock has been produced" (Hull, 2014, p. 359)
+
+So, the result when attempting to analytically price an American put option will be `undefined`.
 
 ```js
 const option = new Option("american", "put", 52, 50, 0.25, 0.3, 0.12, 0);

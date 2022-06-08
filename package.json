@@ -1,6 +1,6 @@
 {
   "name": "option-pricing",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Analytical and numerical option pricing calculator.",
   "main": "src/index.js",
   "type": "module",

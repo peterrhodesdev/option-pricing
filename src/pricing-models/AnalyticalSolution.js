@@ -27,7 +27,10 @@ function price(option) {
     option.dividendYield,
   ];
 
-  if (option.style === "european") {
+  if (
+    option.style === "european" ||
+    (option.style === "american" && option.type === "call" && q === 0)
+  ) {
     return blackScholesMerton(option.type, S, K, t, vol, r, q);
   }
 
