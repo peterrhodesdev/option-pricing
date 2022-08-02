@@ -36,16 +36,16 @@ import { Option, coxRossRubinstein } from "option-pricing";
 Create a new `Option`:
 
 ```js
-const option = new Option(
-  "european", // Style of the option defined by the exercise rights ("european" or "american").
-  "call",     // Type of the option ("call" or "put").
-  100,        // Initial price of the underlying asset (S₀ > 0).
-  105,        // Strike/exercise price of the option (K > 0).
-  0.5,        // Time until maturity/expiration in years (τ = T - t > 0).
-  0.3,        // Underlying volatility (σ > 0).
-  0.2,        // Annualized risk-free interest rate continuously compounded (r).
-  0.1         // Annual dividend yield continuously compounded (q).
-);
+const option = new Option({
+  style: "european",     // Style of the option defined by the exercise rights ("european" or "american").
+  type: "call",          // Type of the option ("call" or "put").
+  initialSpotPrice: 100, // Initial price of the underlying asset (S₀ > 0).
+  strikePrice: 105,      // Strike/exercise price of the option (K > 0).
+  timeToMaturity: 0.5,   // Time until maturity/expiration in years (τ = T - t > 0).
+  volatility: 0.3,       // Underlying volatility (σ > 0).
+  riskFreeRate: 0.2,     // Annualized risk-free interest rate continuously compounded (r).
+  dividendYield: 0.1,    // Annual dividend yield continuously compounded (q).
+});
 ```
 
 Then either call the `analyticalSolution` method on the `Option`, or pass the option to the desired pricing model along with the required parameters.
@@ -63,7 +63,15 @@ _Hull SSM (2014), Problem 15.13, page 166_
 S₀ = 52, K = 50, τ = 0.25, σ = 0.3, r = 0.12, q = 0
 
 ```js
-const option = new Option("european", "call", 52, 50, 0.25, 0.3, 0.12, 0);
+const option = new Option({
+  style: "european",
+  type: "call",
+  initialSpotPrice: 52,
+  strikePrice: 50,
+  timeToMaturity: 0.25,
+  volatility: 0.3,
+  riskFreeRate: 0.12,
+});
 const price = option.analyticalSolution();
 console.log(price);
 // 5.057...
@@ -76,7 +84,15 @@ console.log(price);
 That is, the price of an American call option on a non-dividend paying stock is the same as the price of a European call option.
 
 ```js
-const option = new Option("american", "call", 52, 50, 0.25, 0.3, 0.12, 0);
+const option = new Option({
+  style: "american",
+  type: "call",
+  initialSpotPrice: 52,
+  strikePrice: 50,
+  timeToMaturity: 0.25,
+  volatility: 0.3,
+  riskFreeRate: 0.12,
+});
 const price = option.analyticalSolution();
 console.log(price);
 // 5.057...
@@ -89,7 +105,15 @@ console.log(price);
 So, the result when attempting to analytically price an American put option will be `undefined`.
 
 ```js
-const option = new Option("american", "put", 52, 50, 0.25, 0.3, 0.12, 0);
+const option = new Option({
+  style: "american",
+  type: "put",
+  initialSpotPrice: 52,
+  strikePrice: 50,
+  timeToMaturity: 0.25,
+  volatility: 0.3,
+  riskFreeRate: 0.12,
+});
 const price = option.analyticalSolution();
 console.log(price);
 // undefined
@@ -103,12 +127,20 @@ Binomial options pricing model described by [Cox, Ross, and Rubinstein (1979)](h
 
 _Hull SSM (2014): Problem 13.17, page 142_
 
-option: S₀ = 1500, K = 1480, τ = 1, σ = 0.18, r = 0.04, q = 0.025
-parameters: timeSteps = 2
+S₀ = 1500, K = 1480, τ = 1, σ = 0.18, r = 0.04, q = 0.025, time steps = 2
 
 ```js
-const option = new Option("american", "put", 1500, 1480, 1, 0.18, 0.04, 0.025);
-const price = await coxRossRubinstein(
+const option = new Option({
+  style: "american",
+  type: "put",
+  initialSpotPrice: 1500,
+  strikePrice: 1480,
+  timeToMaturity: 1,
+  volatility: 0.18,
+  riskFreeRate: 0.04,
+  dividendYield: 0.025,
+});
+const price = coxRossRubinstein(
   option,
   2,      // Number of time steps in the tree.
 );

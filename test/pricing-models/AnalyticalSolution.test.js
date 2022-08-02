@@ -3,22 +3,31 @@ import { price } from "../../src/pricing-models/AnalyticalSolution";
 
 describe("options with no known analytical solution", () => {
   test("American put option", () => {
-    const option = new Option("american", "put", 100, 100, 1, 0.25, 0, 0);
+    const option = new Option({
+      style: "american",
+      type: "put",
+      initialSpotPrice: 100,
+      strikePrice: 100,
+      timeToMaturity: 1,
+      volatility: 0.25,
+      riskFreeRate: 0,
+      dividendYield: 0,
+    });
     const actual = price(option);
     expect(actual).toBeUndefined();
   });
 
   test("American call option on a dividend paying stock", () => {
-    const option = new Option(
-      "american",
-      "call",
-      250,
-      250,
-      0.25,
-      0.18,
-      0.1,
-      0.03
-    );
+    const option = new Option({
+      style: "american",
+      type: "call",
+      initialSpotPrice: 250,
+      strikePrice: 250,
+      timeToMaturity: 0.25,
+      volatility: 0.18,
+      riskFreeRate: 0.1,
+      dividendYield: 0.03,
+    });
     const actual = price(option);
     expect(actual).toBeUndefined();
   });
@@ -30,49 +39,76 @@ describe("options with no known analytical solution", () => {
 
 describe("Black-Scholes-Merton model", () => {
   test("European call: Hull SSM (2014), Problem 15.13, page 166", () => {
-    const option = new Option("european", "call", 52, 50, 0.25, 0.3, 0.12, 0);
+    const option = new Option({
+      style: "european",
+      type: "call",
+      initialSpotPrice: 52,
+      strikePrice: 50,
+      timeToMaturity: 0.25,
+      volatility: 0.3,
+      riskFreeRate: 0.12,
+      dividendYield: 0,
+    });
     const actual = price(option);
     expect(actual).toBeCloseTo(5.06, 2);
   });
 
   test("American call on a non-dividend paying stock", () => {
-    const option = new Option("american", "call", 52, 50, 0.25, 0.3, 0.12, 0);
+    const option = new Option({
+      style: "american",
+      type: "call",
+      initialSpotPrice: 52,
+      strikePrice: 50,
+      timeToMaturity: 0.25,
+      volatility: 0.3,
+      riskFreeRate: 0.12,
+      dividendYield: 0,
+    });
     const actual = price(option);
     expect(actual).toBeCloseTo(5.06, 2);
   });
 
   test("European call with non-zero dividend yield: Hull SSM (2014), Problem 17.6, page 187", () => {
-    const option = new Option(
-      "european",
-      "call",
-      250,
-      250,
-      0.25,
-      0.18,
-      0.1,
-      0.03
-    );
+    const option = new Option({
+      style: "european",
+      type: "call",
+      initialSpotPrice: 250,
+      strikePrice: 250,
+      timeToMaturity: 0.25,
+      volatility: 0.18,
+      riskFreeRate: 0.1,
+      dividendYield: 0.03,
+    });
     const actual = price(option);
     expect(actual).toBeCloseTo(11.15, 2);
   });
 
   test("European put: Hull (2014), Section 15.9, Example 15.6, page 360", () => {
-    const option = new Option("european", "put", 42, 40, 0.5, 0.2, 0.1, 0);
+    const option = new Option({
+      style: "european",
+      type: "put",
+      initialSpotPrice: 42,
+      strikePrice: 40,
+      timeToMaturity: 0.5,
+      volatility: 0.2,
+      riskFreeRate: 0.1,
+      dividendYield: 0,
+    });
     const actual = price(option);
     expect(actual).toBeCloseTo(0.81, 2);
   });
 
   test("European put with non-zero dividend yield: Hull SSM (2014), Problem 17.7, page 187", () => {
-    const option = new Option(
-      "european",
-      "put",
-      0.52,
-      0.5,
-      0.6667,
-      0.12,
-      0.04,
-      0.08
-    );
+    const option = new Option({
+      style: "european",
+      type: "put",
+      initialSpotPrice: 0.52,
+      strikePrice: 0.5,
+      timeToMaturity: 0.6667,
+      volatility: 0.12,
+      riskFreeRate: 0.04,
+      dividendYield: 0.08,
+    });
     const actual = price(option);
     expect(actual).toBeCloseTo(0.0162, 4);
   });

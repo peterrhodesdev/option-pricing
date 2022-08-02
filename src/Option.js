@@ -1,6 +1,9 @@
 import { price } from "./pricing-models/AnalyticalSolution.js";
 import { isNumberGreaterThanZero } from "./utils/ValidationUtils.js";
 
+/**
+ * @class Option
+ */
 class Option {
   #style;
 
@@ -18,7 +21,19 @@ class Option {
 
   #dividendYield;
 
-  constructor(
+  /**
+   * @constructor Option
+   * @param {object} option
+   * @param {string} option.style style of the option defined by the exercise rights ("european" or "american")
+   * @param {string} option.type type of the option ("call" or "put")
+   * @param {number} option.initialSpotPrice initial price of the underlying asset (S₀ > 0)
+   * @param {number} option.strikePrice strike/exercise price of the option (K > 0)
+   * @param {number} option.timeToMaturity time until maturity/expiration in years (τ = T - t > 0)
+   * @param {number} option.volatility underlying volatility (σ > 0)
+   * @param {number} [option.riskFreeRate=0] annualized risk-free interest rate continuously compounded (r)
+   * @param {number} [option.dividendYield=0] annual dividend yield continuously compounded (q)
+   */
+  constructor({
     style,
     type,
     initialSpotPrice,
@@ -26,8 +41,8 @@ class Option {
     timeToMaturity,
     volatility,
     riskFreeRate,
-    dividendYield
-  ) {
+    dividendYield,
+  }) {
     Option.#checkStyle(style);
     this.#style = style;
     Option.#checkType(type);
@@ -49,6 +64,10 @@ class Option {
 
   // Pricers
 
+  /**
+   * Calculates the analytical value of the option.
+   * @returns {number|undefined} analytically calculated option value, or undefined if the analytical solution is not known
+   */
   analyticalSolution() {
     return price(this);
   }

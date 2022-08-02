@@ -1,44 +1,62 @@
 import { Option } from "../../src/Option";
 import { price } from "../../src/pricing-models/CoxRossRubinstein";
 
-test("American call: Hull (2014), Section 13.11, Figure 13.12, page 314", async () => {
-  const option = new Option(
-    "american",
-    "call",
-    0.61,
-    0.6,
-    0.25,
-    0.12,
-    0.05,
-    0.07
-  );
-  const actual = await price(option, 3);
+test("American call: Hull (2014), Section 13.11, Figure 13.12, page 314", () => {
+  const option = new Option({
+    style: "american",
+    type: "call",
+    initialSpotPrice: 0.61,
+    strikePrice: 0.6,
+    timeToMaturity: 0.25,
+    volatility: 0.12,
+    riskFreeRate: 0.05,
+    dividendYield: 0.07,
+  });
+  const actual = price(option, 3);
   expect(actual).toBeCloseTo(0.019, 3);
 });
 
-test("American put: Hull SSM (2014), Problem 13.17, page 142", async () => {
-  const option = new Option(
-    "american",
-    "put",
-    1500,
-    1480,
-    1,
-    0.18,
-    0.04,
-    0.025
-  );
-  const actual = await price(option, 2);
+test("American put: Hull SSM (2014), Problem 13.17, page 142", () => {
+  const option = new Option({
+    style: "american",
+    type: "put",
+    initialSpotPrice: 1500,
+    strikePrice: 1480,
+    timeToMaturity: 1,
+    volatility: 0.18,
+    riskFreeRate: 0.04,
+    dividendYield: 0.025,
+  });
+  const actual = price(option, 2);
   expect(actual).toBeCloseTo(78.41, 2);
 });
 
-test("European call: Hull (2014), Section 13.11, Figure 13.11, page 313", async () => {
-  const option = new Option("european", "call", 810, 800, 0.5, 0.2, 0.05, 0.02);
-  const actual = await price(option, 2);
+test("European call: Hull (2014), Section 13.11, Figure 13.11, page 313", () => {
+  const option = new Option({
+    style: "european",
+    type: "call",
+    initialSpotPrice: 810,
+    strikePrice: 800,
+    timeToMaturity: 0.5,
+    volatility: 0.2,
+    riskFreeRate: 0.05,
+    dividendYield: 0.02,
+  });
+  const actual = price(option, 2);
   expect(actual).toBeCloseTo(53.39, 2);
 });
 
-test("European put: Hull SSM (2014), Problem 13.19, page 144", async () => {
-  const option = new Option("european", "put", 140, 150, 0.5, 0.25, 0.04, 0);
-  const actual = await price(option, 2);
+test("European put: Hull SSM (2014), Problem 13.19, page 144", () => {
+  const option = new Option({
+    style: "european",
+    type: "put",
+    initialSpotPrice: 140,
+    strikePrice: 150,
+    timeToMaturity: 0.5,
+    volatility: 0.25,
+    riskFreeRate: 0.04,
+    dividendYield: 0,
+  });
+  const actual = price(option, 2);
   expect(actual).toBeCloseTo(14.58, 2);
 });
