@@ -18,21 +18,6 @@ function createNode(initialSpotPrice, i, j, u, d) {
   };
 }
 
-function calculateExerciseValue(option, spotPrice, time) {
-  const isCall = option.type === "call" ? 1 : -1;
-
-  switch (option.style) {
-    case "european":
-      return time < option.timeToMaturity
-        ? 0
-        : Math.max(0, isCall * (spotPrice - option.strikePrice));
-    case "american":
-      return Math.max(0, isCall * (spotPrice - option.strikePrice));
-    default:
-      throw new Error(`Invalid option style (${option.style})`);
-  }
-}
-
 function calculateNodeOptionValue(option, timeSteps, nodes, i, j, deltat, p) {
   const nodeIndex = (i * (i + 1)) / 2 + j; // sum of numbers from 1 to i, plus j
 
@@ -44,8 +29,7 @@ function calculateNodeOptionValue(option, timeSteps, nodes, i, j, deltat, p) {
       Math.exp(-option.riskFreeRate * deltat);
   }
 
-  const exerciseValue = calculateExerciseValue(
-    option,
+  const exerciseValue = option.calculateExerciseValue(
     nodes[nodeIndex].spotPrice,
     i === timeSteps ? option.timeToMaturity : i * deltat
   );

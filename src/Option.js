@@ -5,9 +5,11 @@ import {
 } from "./utils/ValidationUtils.js";
 import { price as priceBSM } from "./pricing-models/BlackScholesMerton.js";
 import { price as priceCRR } from "./pricing-models/CoxRossRubinstein.js";
+import { price as priceMCS } from "./pricing-models/MonteCarloSimulation.js";
 
 const METHOD_BLACK_SCHOLES_MERTON = ["bsm", "black-scholes-merton"];
 const METHOD_COX_ROSS_RUBINSTEIN = ["crr", "cox-roxx-rubinstein"];
+const METHOD_MONTE_CARLO_SIMULATION = ["mcs", "monte-carlo-simulation"];
 
 /**
  * @class Option
@@ -95,8 +97,27 @@ class Option {
         return priceBSM(this);
       case METHOD_COX_ROSS_RUBINSTEIN.includes(methodLowerCase):
         return priceCRR(this, params);
+      case METHOD_MONTE_CARLO_SIMULATION.includes(methodLowerCase):
+        return priceMCS(this, params);
       default:
         throw new Error(`unknown method: ${method}`);
+    }
+  }
+
+  // Exercise value
+
+  calculateExerciseValue(spotPrice, time) {
+    const isCall = this.type === "call" ? 1 : -1;
+
+    switch (this.style) {
+      case "european":
+        return time < this.timeToMaturity
+          ? 0
+          : Math.max(0, isCall * (spotPrice - this.strikePrice));
+      case "american":
+        return Math.max(0, isCall * (spotPrice - this.strikePrice));
+      default:
+        throw new Error(`invalid option style: ${this.style}`);
     }
   }
 

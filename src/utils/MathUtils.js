@@ -32,4 +32,14 @@ function standardNormalCdf(x) {
   return normalCdf(x, 0, 1);
 }
 
-export { standardNormalCdf };
+// Normally distributed random numbers (using the Box-Muller transform), like the randn() function of MATLAB
+// https://stackoverflow.com/a/36481059
+function randn() {
+  let u = 0;
+  let v = 0;
+  while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+export { randn, standardNormalCdf };
