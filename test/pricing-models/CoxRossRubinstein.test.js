@@ -1,5 +1,4 @@
 import { Option } from "../../src/Option";
-import { price } from "../../src/pricing-models/CoxRossRubinstein";
 
 test("American call: Hull (2014), Section 13.11, Figure 13.12, page 314", () => {
   const option = new Option({
@@ -12,7 +11,7 @@ test("American call: Hull (2014), Section 13.11, Figure 13.12, page 314", () => 
     riskFreeRate: 0.05,
     dividendYield: 0.07,
   });
-  const actual = price(option, 3);
+  const actual = option.price("crr", { timeSteps: 3 });
   expect(actual).toBeCloseTo(0.019, 3);
 });
 
@@ -27,7 +26,7 @@ test("American put: Hull SSM (2014), Problem 13.17, page 142", () => {
     riskFreeRate: 0.04,
     dividendYield: 0.025,
   });
-  const actual = price(option, 2);
+  const actual = option.price("crr", { timeSteps: 2 });
   expect(actual).toBeCloseTo(78.41, 2);
 });
 
@@ -42,7 +41,7 @@ test("European call: Hull (2014), Section 13.11, Figure 13.11, page 313", () => 
     riskFreeRate: 0.05,
     dividendYield: 0.02,
   });
-  const actual = price(option, 2);
+  const actual = option.price("crr", { timeSteps: 2 });
   expect(actual).toBeCloseTo(53.39, 2);
 });
 
@@ -57,6 +56,6 @@ test("European put: Hull SSM (2014), Problem 13.19, page 144", () => {
     riskFreeRate: 0.04,
     dividendYield: 0,
   });
-  const actual = price(option, 2);
+  const actual = option.price("crr", { timeSteps: 2 });
   expect(actual).toBeCloseTo(14.58, 2);
 });

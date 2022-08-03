@@ -55,11 +55,13 @@ function calculateNodeOptionValue(option, timeSteps, nodes, i, j, deltat, p) {
 
 /**
  * Calculates the price of an option using the binomial options pricing model described by Cox, Ross, and Rubinstein (1979) (https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.379.7582).
- * @param {Option} option the option to price
- * @param {number} timeSteps number of time steps in the tree (> 0)
+ * @param {Option} option option to price
+ * @param {object} params
+ * @param {number} params.timeSteps number of time steps in the tree (> 0)
  * @returns {number} price of the option
+ * @throws if params.timeSteps is not a number greater than zero
  */
-function price(option, timeSteps) {
+function price(option, { timeSteps }) {
   if (!isNumberGreaterThanZero(timeSteps)) {
     throw new Error(
       `Invalid time steps (${timeSteps}), must be a number greater than zero.`

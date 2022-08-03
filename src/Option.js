@@ -1,5 +1,6 @@
-import { price } from "./pricing-models/AnalyticalSolution.js";
 import { isNumberGreaterThanZero } from "./utils/ValidationUtils.js";
+import { price as priceBSM } from "./pricing-models/BlackScholesMerton.js";
+import { price as priceCRR } from "./pricing-models/CoxRossRubinstein.js";
 
 /**
  * @class Option
@@ -30,8 +31,8 @@ class Option {
    * @param {number} option.strikePrice strike/exercise price of the option (K > 0)
    * @param {number} option.timeToMaturity time until maturity/expiration in years (τ = T - t > 0)
    * @param {number} option.volatility underlying volatility (σ > 0)
-   * @param {number} [option.riskFreeRate=0] annualized risk-free interest rate continuously compounded (r)
-   * @param {number} [option.dividendYield=0] annual dividend yield continuously compounded (q)
+   * @param {number} [option.riskFreeRate=0] [optional] annualized risk-free interest rate continuously compounded (r)
+   * @param {number} [option.dividendYield=0] [optional] annual dividend yield continuously compounded (q)
    */
   constructor({
     style,
@@ -62,14 +63,27 @@ class Option {
     this.#dividendYield = Number.isFinite(dividendYield) ? dividendYield : 0;
   }
 
-  // Pricers
+  // Price
 
   /**
-   * Calculates the analytical value of the option.
+   * Calculates the price of the option.
+   * @param {string} method pricing method/model ("bsm"|"black-scholes-merton", "crr"|"cox-ross-rubinstein")
+   * @param {object} [params=null] [optional] params for numerical methods
    * @returns {number|undefined} analytically calculated option value, or undefined if the analytical solution is not known
+   * @throws if the pricing method is not valid
+   * @throws if the params are invalid for the selected pricing method
    */
-  analyticalSolution() {
-    return price(this);
+  price(method, params = null) {
+    switch (method.toLowerCase()) {
+      case "bsm":
+      case "black-scholes-merton":
+        return priceBSM(this);
+      case "crr":
+      case "cox-ross-rubinstein":
+        return priceCRR(this, params);
+      default:
+        throw new Error(`unknown method: ${method}`);
+    }
   }
 
   // Checkers

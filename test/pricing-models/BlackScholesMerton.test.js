@@ -1,5 +1,4 @@
 import { Option } from "../../src/Option";
-import { price } from "../../src/pricing-models/AnalyticalSolution";
 
 describe("options with no known analytical solution", () => {
   test("American put option", () => {
@@ -13,7 +12,7 @@ describe("options with no known analytical solution", () => {
       riskFreeRate: 0,
       dividendYield: 0,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeUndefined();
   });
 
@@ -28,7 +27,7 @@ describe("options with no known analytical solution", () => {
       riskFreeRate: 0.1,
       dividendYield: 0.03,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeUndefined();
   });
 });
@@ -37,7 +36,7 @@ describe("options with no known analytical solution", () => {
 // Hull (2014): Hull, J. (2014) Options, Futures and Other Derivatives. 9th Edition, Prentice Hall, Upper Saddle River.
 // Hull SSM (2014): Hull, J. (2014) Student Solutions Manual for Options, Futures, and Other Derivatives. 9th Edition, Prentice Hall, Upper Saddle River.
 
-describe("Black-Scholes-Merton model", () => {
+describe("options with analytical solutions", () => {
   test("European call: Hull SSM (2014), Problem 15.13, page 166", () => {
     const option = new Option({
       style: "european",
@@ -49,7 +48,7 @@ describe("Black-Scholes-Merton model", () => {
       riskFreeRate: 0.12,
       dividendYield: 0,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeCloseTo(5.06, 2);
   });
 
@@ -64,7 +63,7 @@ describe("Black-Scholes-Merton model", () => {
       riskFreeRate: 0.12,
       dividendYield: 0,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeCloseTo(5.06, 2);
   });
 
@@ -79,7 +78,7 @@ describe("Black-Scholes-Merton model", () => {
       riskFreeRate: 0.1,
       dividendYield: 0.03,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeCloseTo(11.15, 2);
   });
 
@@ -94,7 +93,7 @@ describe("Black-Scholes-Merton model", () => {
       riskFreeRate: 0.1,
       dividendYield: 0,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeCloseTo(0.81, 2);
   });
 
@@ -109,7 +108,7 @@ describe("Black-Scholes-Merton model", () => {
       riskFreeRate: 0.04,
       dividendYield: 0.08,
     });
-    const actual = price(option);
+    const actual = option.price("bsm");
     expect(actual).toBeCloseTo(0.0162, 4);
   });
 });

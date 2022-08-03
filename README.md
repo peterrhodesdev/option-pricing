@@ -1,12 +1,10 @@
 # option-pricing
 
-Analytical and numerical option pricing calculator.
+Analytical (Black-Scholes-Merton) and numerical (binomial tree) option pricing calculator supporting different payoff styles (European and American).
 
-Analytical solutions implemented:
-- Black-Scholes-Merton (BSM) model for vanilla European call and put options
-
-Numerical pricing models supported:
-- `coxRossRubinstein`: Cox-Ross-Rubinstein (CRR) model (also known as the binomial model)
+Pricing methods implemented:
+- Black-Scholes-Merton (BSM) model for vanilla European call and put options (and vanilla American call options on a non-dividend paying stock)
+- Cox-Ross-Rubinstein (CRR) model (also known as the binomial model)
 
 ## Table of contents
 
@@ -27,10 +25,10 @@ npm install option-pricing
 
 ## Usage
 
-Import the `Option` class and the pricing model(s) you want to use:
+Import the `Option` class:
 
 ```js
-import { Option, coxRossRubinstein } from "option-pricing";
+import { Option } from "option-pricing";
 ```
 
 Create a new `Option`:
@@ -43,16 +41,30 @@ const option = new Option({
   strikePrice: 105,      // Strike/exercise price of the option (K > 0).
   timeToMaturity: 0.5,   // Time until maturity/expiration in years (τ = T - t > 0).
   volatility: 0.3,       // Underlying volatility (σ > 0).
-  riskFreeRate: 0.2,     // Annualized risk-free interest rate continuously compounded (r).
-  dividendYield: 0.1,    // Annual dividend yield continuously compounded (q).
+  riskFreeRate: 0.2,     // [optional] Annualized risk-free interest rate continuously compounded (r).
+  dividendYield: 0.1,    // [optional] Annual dividend yield continuously compounded (q).
 });
 ```
 
-Then either call the `analyticalSolution` method on the `Option`, or pass the option to the desired pricing model along with the required parameters.
+Then call the `price` method on the `Option`, selecting the desired pricing method/model (and passing in the required parameters if a numerical method is selected).
+
+> You can use the setter methods provided to update the option parameters.
+
+### Pricing methods
+
+The available pricing methods are:
+- Black-Scholes-Merton (BSM): `"bsm"` or `"black-scholes-merton"`
+- Cox-Ross-Rubinstein (CRR): `"crr"` or `"cox-ross-rubinstein"`
+
+### Parameters for numerical methods
+
+The parameters for the numerical methods are:
+- Cox-Ross-Rubinstein (CRR):
+  - timeSteps: number of time steps in the tree (> 0)
 
 ## Examples
 
-### Analytically priced options
+### Black-Scholes-Merton (analytically priced options)
 
 - European call/put options
 
@@ -72,7 +84,7 @@ const option = new Option({
   volatility: 0.3,
   riskFreeRate: 0.12,
 });
-const price = option.analyticalSolution();
+const price = option.price("bsm");
 console.log(price);
 // 5.057...
 ```
@@ -93,7 +105,7 @@ const option = new Option({
   volatility: 0.3,
   riskFreeRate: 0.12,
 });
-const price = option.analyticalSolution();
+const price = option.price("black-scholes-merton");
 console.log(price);
 // 5.057...
 ```
@@ -114,7 +126,7 @@ const option = new Option({
   volatility: 0.3,
   riskFreeRate: 0.12,
 });
-const price = option.analyticalSolution();
+const price = option.price("bsm");
 console.log(price);
 // undefined
 ```
@@ -140,10 +152,7 @@ const option = new Option({
   riskFreeRate: 0.04,
   dividendYield: 0.025,
 });
-const price = coxRossRubinstein(
-  option,
-  2,      // Number of time steps in the tree.
-);
+const price = option.price("crr", { timeSteps: 2 });
 console.log(price);
 // 78.413...
 ```
