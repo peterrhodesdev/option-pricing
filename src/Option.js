@@ -1,6 +1,13 @@
-import { isNumberGreaterThanZero } from "./utils/ValidationUtils.js";
+import {
+  isValidStyle,
+  isValidType,
+  isNumberGreaterThanZero,
+} from "./utils/ValidationUtils.js";
 import { price as priceBSM } from "./pricing-models/BlackScholesMerton.js";
 import { price as priceCRR } from "./pricing-models/CoxRossRubinstein.js";
+
+const METHOD_BLACK_SCHOLES_MERTON = ["bsm", "black-scholes-merton"];
+const METHOD_COX_ROSS_RUBINSTEIN = ["crr", "cox-roxx-rubinstein"];
 
 /**
  * @class Option
@@ -33,6 +40,7 @@ class Option {
    * @param {number} option.volatility underlying volatility (σ > 0)
    * @param {number} [option.riskFreeRate=0] [optional] annualized risk-free interest rate continuously compounded (r)
    * @param {number} [option.dividendYield=0] [optional] annual dividend yield continuously compounded (q)
+   * @throws if the option params are invalid
    */
   constructor({
     style,
@@ -74,12 +82,18 @@ class Option {
    * @throws if the params are invalid for the selected pricing method
    */
   price(method, params = null) {
-    switch (method.toLowerCase()) {
-      case "bsm":
-      case "black-scholes-merton":
+    const methodLowerCase = method.toLowerCase();
+    if (
+      !METHOD_BLACK_SCHOLES_MERTON.includes(methodLowerCase) &&
+      params === null
+    ) {
+      throw new Error("params must be supplied for numerical methods");
+    }
+
+    switch (true) {
+      case METHOD_BLACK_SCHOLES_MERTON.includes(methodLowerCase):
         return priceBSM(this);
-      case "crr":
-      case "cox-ross-rubinstein":
+      case METHOD_COX_ROSS_RUBINSTEIN.includes(methodLowerCase):
         return priceCRR(this, params);
       default:
         throw new Error(`unknown method: ${method}`);
@@ -89,18 +103,14 @@ class Option {
   // Checkers
 
   static #checkStyle(style) {
-    const validStyles = ["american", "european"];
-    if (!validStyles.includes(style)) {
-      throw new Error(
-        `Invalid style (${style}), must be one of: ${validStyles}.`
-      );
+    if (!isValidStyle(style)) {
+      throw new Error(`invalid style: ${style}`);
     }
   }
 
   static #checkType(type) {
-    const validTypes = ["call", "put"];
-    if (!validTypes.includes(type)) {
-      throw new Error(`Invalid type (${type}), must be one of: ${validTypes}.`);
+    if (!isValidType(type)) {
+      throw new Error(`Invalid type: ${type}`);
     }
   }
 

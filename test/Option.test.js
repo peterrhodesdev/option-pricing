@@ -11,8 +11,6 @@ describe("check arguments", () => {
           strikePrice: 100,
           timeToMaturity: 1,
           volatility: 0.25,
-          riskFreeRate: 0.1,
-          dividendYield: 0.05,
         })
     ).not.toThrow();
     expect(
@@ -25,7 +23,6 @@ describe("check arguments", () => {
           timeToMaturity: 1,
           volatility: 0.25,
           riskFreeRate: 0.1,
-          dividendYield: 0.05,
         })
     ).not.toThrow();
     expect(
@@ -33,6 +30,18 @@ describe("check arguments", () => {
         new Option({
           style: "american",
           type: "call",
+          initialSpotPrice: 100,
+          strikePrice: 100,
+          timeToMaturity: 1,
+          volatility: 0.25,
+          dividendYield: 0.05,
+        })
+    ).not.toThrow();
+    expect(
+      () =>
+        new Option({
+          style: "american",
+          type: "put",
           initialSpotPrice: 100,
           strikePrice: 100,
           timeToMaturity: 1,
