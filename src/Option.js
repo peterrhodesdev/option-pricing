@@ -104,23 +104,6 @@ class Option {
     }
   }
 
-  // Exercise value
-
-  calculateExerciseValue(spotPrice, time) {
-    const isCall = this.type === "call" ? 1 : -1;
-
-    switch (this.style) {
-      case "european":
-        return time < this.timeToMaturity
-          ? 0
-          : Math.max(0, isCall * (spotPrice - this.strikePrice));
-      case "american":
-        return Math.max(0, isCall * (spotPrice - this.strikePrice));
-      default:
-        throw new Error(`invalid option style: ${this.style}`);
-    }
-  }
-
   // Checkers
 
   static #checkStyle(style) {

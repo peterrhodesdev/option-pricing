@@ -1,3 +1,4 @@
+import { calculateExerciseValue } from "../utils/OptionUtils.js";
 import { isNumberGreaterThanZero } from "../utils/ValidationUtils.js";
 
 function determineModelParameters(option, timeSteps) {
@@ -29,7 +30,8 @@ function calculateNodeOptionValue(option, timeSteps, nodes, i, j, deltat, p) {
       Math.exp(-option.riskFreeRate * deltat);
   }
 
-  const exerciseValue = option.calculateExerciseValue(
+  const exerciseValue = calculateExerciseValue(
+    option,
     nodes[nodeIndex].spotPrice,
     i === timeSteps ? option.timeToMaturity : i * deltat
   );
@@ -48,7 +50,7 @@ function calculateNodeOptionValue(option, timeSteps, nodes, i, j, deltat, p) {
 function price(option, { timeSteps }) {
   if (!isNumberGreaterThanZero(timeSteps)) {
     throw new Error(
-      `Invalid time steps (${timeSteps}), must be a number greater than zero.`
+      `invalid time steps (${timeSteps}), must be a number greater than zero.`
     );
   }
 
