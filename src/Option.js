@@ -3,12 +3,12 @@ import {
   isValidType,
   isNumberGreaterThanZero,
 } from "./utils/ValidationUtils.js";
-import { price as priceBSM } from "./pricing-models/BlackScholesMerton.js";
-import { price as priceCRR } from "./pricing-models/CoxRossRubinstein.js";
+import { price as priceBS } from "./pricing-models/BlackScholes.js";
+import { price as priceBT } from "./pricing-models/BinomialTree.js";
 import { price as priceMCS } from "./pricing-models/MonteCarloSimulation.js";
 
-const METHOD_BLACK_SCHOLES_MERTON = ["bsm", "black-scholes-merton"];
-const METHOD_COX_ROSS_RUBINSTEIN = ["crr", "cox-roxx-rubinstein"];
+const METHOD_BLACK_SCHOLES = ["bs", "black-scholes"];
+const METHOD_BINOMIAL_TREE = ["bt", "binomial-tree"];
 const METHOD_MONTE_CARLO_SIMULATION = ["mcs", "monte-carlo-simulation"];
 
 /**
@@ -85,18 +85,15 @@ class Option {
    */
   price(method, params = null) {
     const methodLowerCase = method.toLowerCase();
-    if (
-      !METHOD_BLACK_SCHOLES_MERTON.includes(methodLowerCase) &&
-      params === null
-    ) {
+    if (!METHOD_BLACK_SCHOLES.includes(methodLowerCase) && params === null) {
       throw new Error("params must be supplied for numerical methods");
     }
 
     switch (true) {
-      case METHOD_BLACK_SCHOLES_MERTON.includes(methodLowerCase):
-        return priceBSM(this);
-      case METHOD_COX_ROSS_RUBINSTEIN.includes(methodLowerCase):
-        return priceCRR(this, params);
+      case METHOD_BLACK_SCHOLES.includes(methodLowerCase):
+        return priceBS(this);
+      case METHOD_BINOMIAL_TREE.includes(methodLowerCase):
+        return priceBT(this, params);
       case METHOD_MONTE_CARLO_SIMULATION.includes(methodLowerCase):
         return priceMCS(this, params);
       default:

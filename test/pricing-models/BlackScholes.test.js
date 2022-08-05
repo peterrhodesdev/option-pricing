@@ -1,5 +1,7 @@
 import { Option } from "../../src/Option";
 
+const PRICING_METHOD_BS = "bs";
+
 describe("options with no known analytical solution", () => {
   test("American put option", () => {
     const option = new Option({
@@ -12,7 +14,7 @@ describe("options with no known analytical solution", () => {
       riskFreeRate: 0,
       dividendYield: 0,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeUndefined();
   });
 
@@ -27,7 +29,7 @@ describe("options with no known analytical solution", () => {
       riskFreeRate: 0.1,
       dividendYield: 0.03,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeUndefined();
   });
 });
@@ -48,7 +50,7 @@ describe("options with analytical solutions", () => {
       riskFreeRate: 0.12,
       dividendYield: 0,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeCloseTo(5.06, 2);
   });
 
@@ -63,7 +65,7 @@ describe("options with analytical solutions", () => {
       riskFreeRate: 0.12,
       dividendYield: 0,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeCloseTo(5.06, 2);
   });
 
@@ -78,7 +80,7 @@ describe("options with analytical solutions", () => {
       riskFreeRate: 0.1,
       dividendYield: 0.03,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeCloseTo(11.15, 2);
   });
 
@@ -93,7 +95,7 @@ describe("options with analytical solutions", () => {
       riskFreeRate: 0.1,
       dividendYield: 0,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeCloseTo(0.81, 2);
   });
 
@@ -108,7 +110,7 @@ describe("options with analytical solutions", () => {
       riskFreeRate: 0.04,
       dividendYield: 0.08,
     });
-    const actual = option.price("bsm");
+    const actual = option.price(PRICING_METHOD_BS);
     expect(actual).toBeCloseTo(0.0162, 4);
   });
 });

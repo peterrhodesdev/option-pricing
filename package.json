@@ -1,7 +1,7 @@
 {
   "name": "option-pricing",
-  "version": "1.0.2",
-  "description": "Analytical (Black-Scholes-Merton) and numerical (binomial tree) option pricing calculator supporting different payoff styles (European and American).",
+  "version": "2.0.0",
+  "description": "Analytical (Black-Scholes) and numerical (binomial tree, Monte Carlo simulation) option pricing calculator supporting different payoff styles (European and American).",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -17,9 +17,8 @@
     "option",
     "pricing",
     "black-scholes",
-    "black-scholes-merton",
     "binomial-tree",
-    "cox-ross-rubinstein"
+    "monte-carlo-simulation"
   ],
   "author": "Peter Rhodes",
   "license": "MIT",
