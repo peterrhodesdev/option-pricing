@@ -1,5 +1,7 @@
 # option-pricing
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/peterrhodesdev/option-pricing/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/option-pricing.svg?style=flat)](https://www.npmjs.com/package/option-pricing) [![tests](https://github.com/peterrhodesdev/option-pricing/workflows/tests/badge.svg)](https://github.com/peterrhodesdev/option-pricing/actions?query=workflow%3Atests)
+
 Analytical and numerical option pricing calculator supporting different payoff styles.
 
 Pricing methods implemented:

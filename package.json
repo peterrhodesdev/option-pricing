@@ -7,7 +7,8 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./src/**/*.js ./test/**/*.js",
     "lint-fix": "./node_modules/.bin/eslint ./src/**/*.js ./test/**/*.js --fix",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest ./test"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest ./test",
+    "test-coverage": "NODE_OPTIONS=--experimental-vm-modules jest ./test --coverage"
   },
   "repository": {
     "type": "git",
