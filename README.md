@@ -27,6 +27,12 @@ To install the package run:
 npm install option-pricing
 ```
 
+or load it directly in the browser using a CDN like [unpkg](https://unpkg.com/):
+
+```js
+<script crossorigin src="https://unpkg.com/option-pricing/client-dist/bundle.js"></script>
+```
+
 ## Usage
 
 Import the `Option` class:

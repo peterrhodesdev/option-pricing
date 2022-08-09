@@ -1,12 +1,17 @@
 {
   "name": "option-pricing",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Analytical (Black-Scholes) and numerical (binomial tree, Monte Carlo simulation) option pricing calculator supporting different payoff styles (European and American).",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "build": "webpack",
+    "commit": "npm run precommit && git add -A && git commit -m ",
     "lint": "./node_modules/.bin/eslint ./src/**/*.js ./test/**/*.js",
     "lint-fix": "./node_modules/.bin/eslint ./src/**/*.js ./test/**/*.js --fix",
+    "precommit": "npm run lint && npm run test",
+    "prepublish": "node check-version.cjs && npm run lint && npm run test && npm run build",
+    "publish": "npm run prepublish && npm publish",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest ./test",
     "test-coverage": "NODE_OPTIONS=--experimental-vm-modules jest ./test --coverage"
   },
@@ -35,6 +40,8 @@
     "eslint-plugin-jest": "^26.1.4",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.5.1",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
