@@ -10,8 +10,7 @@
     "lint": "./node_modules/.bin/eslint ./src/**/*.js ./test/**/*.js",
     "lint-fix": "./node_modules/.bin/eslint ./src/**/*.js ./test/**/*.js --fix",
     "precommit": "npm run lint && npm run test",
-    "prepublish": "node check-version.cjs && npm run lint && npm run test && npm run build",
-    "publish": "npm run prepublish && npm publish",
+    "prepublishOnly": "node check-version.cjs && npm run lint && npm run test && npm run build",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest ./test",
     "test-coverage": "NODE_OPTIONS=--experimental-vm-modules jest ./test --coverage"
   },
