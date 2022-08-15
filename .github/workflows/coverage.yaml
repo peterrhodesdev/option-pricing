@@ -15,14 +15,14 @@ jobs:
       - name: Generate test coverage
         run: npm run test -- --coverage --coverageReporters="json-summary"
       - name: Output code coverage percentage
-        id: coverage
+        id: coverage_percentage
         run: echo "::set-output name=value::$(jq '.total.lines.pct' ./coverage/coverage-summary.json)"
       - name: Output code coverage hsl hue
         id: hsl_hue
         env:
           CC_MAX: 90
           CC_MIN: 30
-        run: echo "::set-output name=value::$(echo 'Math.floor((Math.max('$CC_MIN',Math.min('$CC_MAX',${{ steps.coverage.outputs.value }})) - '$CC_MIN') / ('$CC_MAX' - '$CC_MIN') * 120)' | node -p)"
+        run: echo "::set-output name=value::$(echo 'Math.floor((Math.max('$CC_MIN',Math.min('$CC_MAX',${{ steps.coverage_percentage.outputs.value }})) - '$CC_MIN') / ('$CC_MAX' - '$CC_MIN') * 120)' | node -p)"
       - name: Output code coverage color
         id: color
         run: echo "::set-output name=value::$(echo 'hsl(${{ steps.hsl_hue.outputs.value }},75%,50%)')"
@@ -30,6 +30,6 @@ jobs:
         uses: peterrhodesdev/build-a-badge@v1.1.1
         with:
           label: "coverage"
-          message: "${{ steps.coverage.outputs.value }}%"
-          color: ${{ steps.color.outputs.value }}
+          message: "${{ steps.coverage_percentage.outputs.value }}%"
+          color: "\"${{ steps.color.outputs.value }}\""
           namedLogo: jest
