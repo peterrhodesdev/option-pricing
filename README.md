@@ -1,6 +1,6 @@
 # option-pricing
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/peterrhodesdev/option-pricing/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/option-pricing.svg?style=flat)](https://www.npmjs.com/package/option-pricing) [![build](https://github.com/peterrhodesdev/option-pricing/workflows/build/badge.svg)](https://github.com/peterrhodesdev/option-pricing/actions?query=workflow%3Abuild)
+[![GitHub license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/peterrhodesdev/option-pricing/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/option-pricing.svg?style=flat&logo=npm)](https://www.npmjs.com/package/option-pricing) [![build](https://github.com/peterrhodesdev/option-pricing/workflows/build/badge.svg)](https://github.com/peterrhodesdev/option-pricing/actions?query=workflow%3Abuild)
 
 Analytical and numerical option pricing calculator supporting different payoff styles.
 
