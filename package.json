@@ -1,6 +1,6 @@
 {
   "name": "option-pricing",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Analytical (Black-Scholes) and numerical (binomial tree, Monte Carlo simulation) option pricing calculator supporting different payoff styles (European and American).",
   "main": "src/index.js",
   "type": "module",

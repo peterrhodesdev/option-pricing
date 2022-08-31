@@ -1,5 +1,45 @@
 import { Option } from "../../src/Option";
 
+const PRICING_METHOD_MCS = "mcs";
+
+test("Pseudorandom number generators, European call, price = 5.06", () => {
+  const option = new Option({
+    style: "european",
+    type: "call",
+    initialSpotPrice: 52,
+    strikePrice: 50,
+    timeToMaturity: 0.25,
+    volatility: 0.3,
+    riskFreeRate: 0.12,
+    dividendYield: 0,
+  });
+  const params = {
+    simulations: 10000,
+    prngSeed: "123",
+    prngAdvancePast: 15,
+  };
+  const sfc32 = option.price(PRICING_METHOD_MCS, {
+    ...params,
+    prngName: "sfc32",
+  });
+  expect(sfc32).toBeCloseTo(5.07, 2);
+  const mulberry32 = option.price(PRICING_METHOD_MCS, {
+    ...params,
+    prngName: "mulberry32",
+  });
+  expect(mulberry32).toBeCloseTo(5.01, 2);
+  const xoshiro128ss = option.price(PRICING_METHOD_MCS, {
+    ...params,
+    prngName: "xoshiro128ss",
+  });
+  expect(xoshiro128ss).toBeCloseTo(5.02, 2);
+  const jsf32 = option.price(PRICING_METHOD_MCS, {
+    ...params,
+    prngName: "jsf32",
+  });
+  expect(jsf32).toBeCloseTo(5.15, 2);
+});
+
 test("American put: Hull (2014), Section 27.8, The Least-Squares Approach, page 668", () => {
   const option = new Option({
     style: "american",
@@ -22,7 +62,7 @@ test("American put: Hull (2014), Section 27.8, The Least-Squares Approach, page 
     [1, 0.92, 0.84, 1.01],
     [1, 0.88, 1.22, 1.34],
   ];
-  const actual = option.price("mcs", {
+  const actual = option.price(PRICING_METHOD_MCS, {
     spotPriceMatrixOverride,
   });
   expect(actual).toBeCloseTo(0.1144, 4);
@@ -61,7 +101,7 @@ describe("Least-Square Monte Carlo for American Options in a Python Class", () =
       [36.0, 43.414096976902584, 38.013441044654044, 41.47318982570703],
       [36.0, 39.00396368971172, 43.68824917222262, 46.60366203089627],
     ];
-    const actual = option.price("mcs", {
+    const actual = option.price(PRICING_METHOD_MCS, {
       spotPriceMatrixOverride,
     });
     expect(actual).toBeCloseTo(5.434, 3);
@@ -90,7 +130,7 @@ describe("Least-Square Monte Carlo for American Options in a Python Class", () =
       [52.0, 59.220987680891184, 53.049531730297495, 56.04415753211748],
       [52.0, 54.64923976784239, 58.88465660272807, 61.167368724039065],
     ];
-    const actual = option.price("mcs", {
+    const actual = option.price(PRICING_METHOD_MCS, {
       spotPriceMatrixOverride,
     });
     expect(actual).toBeCloseTo(5.283, 3);
